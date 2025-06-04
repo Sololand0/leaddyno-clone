@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Product Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col">
+
+  <header class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+    <h1 class="text-xl font-bold">Admin - Product Management</h1>
+    <a href="index.html" class="text-blue-600 hover:underline">Back to Home</a>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto p-6">
+    <form id="productForm" class="mb-8 space-y-4">
+      <div>
+        <label for="imageUrl" class="block font-semibold mb-1">Product Image URL</label>
+        <input type="url" id="imageUrl" name="imageUrl" required placeholder="https://example.com/image.jpg" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <div>
+        <label for="description" class="block font-semibold mb-1">Product Description</label>
+        <textarea id="description" name="description" required rows="3" placeholder="Enter product description" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+      </div>
+      <div>
+        <label for="link" class="block font-semibold mb-1">Product Link</label>
+        <input type="url" id="link" name="link" required placeholder="https://example.com/product" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-semibold">Add Product</button>
+    </form>
+
+    <section>
+      <h2 class="text-2xl font-bold mb-4">Products</h2>
+      <div id="productList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Products will be added here dynamically -->
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const productForm = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+
+    function createProductCard(imageUrl, description, link) {
+      const card = document.createElement('div');
+      card.className = 'border rounded shadow p-4 flex flex-col';
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = description;
+      img.className = 'w-full h-48 object-contain mb-4 rounded';
+
+      const desc = document.createElement('p');
+      desc.textContent = description;
+      desc.className = 'mb-4 flex-grow';
+
+      const anchor = document.createElement('a');
+      anchor.href = link;
+      anchor.target = '_blank';
+      anchor.rel = 'noopener noreferrer';
+      anchor.textContent = 'View Product';
+      anchor.className = 'text-blue-600 hover:underline font-semibold';
+
+      card.appendChild(img);
+      card.appendChild(desc);
+      card.appendChild(anchor);
+
+      return card;
+    }
+
+    productForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const imageUrl = productForm.imageUrl.value.trim();
+      const description = productForm.description.value.trim();
+      const link = productForm.link.value.trim();
+
+      if (imageUrl && description && link) {
+        const productCard = createProductCard(imageUrl, description, link);
+        productList.appendChild(productCard);
+        productForm.reset();
+      }
+    });
+  </script>
+
+</body>
+</html>
